@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package test;
+
+option go_package = "github.com/bitnami-labs/pbjson/pbjsontest;pbjsontest";
+
+message TestDefaults {
+  string an_example = 1;
+}
