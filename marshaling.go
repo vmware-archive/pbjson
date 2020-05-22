@@ -7,7 +7,6 @@ import (
 
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
-	"github.com/juju/errors"
 )
 
 type Message proto.Message
@@ -53,13 +52,13 @@ func NewEncoder(w io.Writer, opts ...EncoderOption) *Encoder {
 }
 
 func (e *Encoder) Encode(msg Message) error {
-	return errors.Trace(e.Marshal(e.w, msg))
+	return e.Marshal(e.w, msg)
 }
 
 func Marshal(msg Message, opts ...EncoderOption) ([]byte, error) {
 	var out bytes.Buffer
 	if err := NewEncoder(&out, opts...).Encode(msg); err != nil {
-		return nil, errors.Trace(err)
+		return nil, err
 	}
 	return out.Bytes(), nil
 }
@@ -67,7 +66,7 @@ func Marshal(msg Message, opts ...EncoderOption) ([]byte, error) {
 func MarshalToString(msg Message, opts ...EncoderOption) (string, error) {
 	var out strings.Builder
 	if err := NewEncoder(&out, opts...).Encode(msg); err != nil {
-		return "", errors.Trace(err)
+		return "", err
 	}
 	return out.String(), nil
 }

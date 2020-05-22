@@ -5,7 +5,6 @@ import (
 	"io"
 
 	"github.com/golang/protobuf/jsonpb"
-	"github.com/juju/errors"
 )
 
 type decoderOptions struct {
@@ -35,15 +34,15 @@ func NewDecoder(r io.Reader, opts ...DecoderOption) *Decoder {
 }
 
 func (d *Decoder) Decode(msg Message) error {
-	return errors.Trace(d.Unmarshal(d.r, msg))
+	return d.Unmarshal(d.r, msg)
 }
 
 // UnmarshalString unmarshals a string into a proto message.
 func UnmarshalString(str string, msg Message, opts ...DecoderOption) error {
-	return errors.Trace(Unmarshal([]byte(str), msg, opts...))
+	return Unmarshal([]byte(str), msg, opts...)
 }
 
 // Unmarshal unmarshals a byte array into a proto message.
 func Unmarshal(b []byte, msg Message, opts ...DecoderOption) error {
-	return errors.Trace(NewDecoder(bytes.NewBuffer(b), opts...).Decode(msg))
+	return NewDecoder(bytes.NewBuffer(b), opts...).Decode(msg)
 }
